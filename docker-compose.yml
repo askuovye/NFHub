@@ -1,0 +1,42 @@
+# Serviços de apoio para desenvolvimento local.
+# O backend (php artisan serve) e o front (npm run dev) rodam no host por enquanto.
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: jarja
+      POSTGRES_USER: jarja
+      POSTGRES_PASSWORD: jarja
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  # S3 compatível para XML e PDF/DANFSe
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: jarja
+      MINIO_ROOT_PASSWORD: jarja-secret
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio-data:/data
+
+  # Captura os e-mails enviados em dev (UI em http://localhost:8025)
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+volumes:
+  postgres-data:
+  minio-data:

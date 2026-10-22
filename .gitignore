@@ -1,0 +1,17 @@
+# Cada app (backend/, frontend/) tem o seu próprio .gitignore.
+# Aqui ficam só regras globais e de segurança.
+
+# Segredos: nunca versionar
+.env
+.env.*
+!.env.example
+*.pfx
+*.p12
+*.pem
+*.key
+*.crt
+
+# SO / editores
+.DS_Store
+Thumbs.db
+.idea/
